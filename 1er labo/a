@@ -1,0 +1,3 @@
+ipcrm -Q 0x4d2
+clear
+Serveur
