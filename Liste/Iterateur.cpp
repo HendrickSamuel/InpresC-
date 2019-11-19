@@ -24,45 +24,31 @@ template <class T> Cellule<T>* Iterateur<T>::getpCur(){
 }
 
 template <class T> T Iterateur<T>::remove(){
-	cout <<"nouveau remove" <<endl<<endl;
-	Trace("pcur: %d", pCur);
-	cout << pCur->valeur;
-	T val;
-//	T val= pCur->valeur;
-//	cout << val;
-	Cellule<T> *pDepl = liste.pTete;
-	Cellule<T> *pPrec = liste.pTete;
-	Trace("pcur: %d", pCur);
-	cout << pCur->valeur;
-	
+	T val= pCur->valeur;
+	Cellule<T> *pDepl = liste.getpTete();
+	Cellule<T> *pPrec = NULL;
 	
 	if(pCur != NULL && !liste.estVide())
 	{
 		#ifdef DEVPLUS
 		Trace("1: %d, 2: %d et suivant: %d",pDepl,pCur,pCur->suivant);
 		#endif
-		while(pDepl != pCur)
+		
+		while(pDepl != pCur && pDepl!= NULL)
 		{
 			pPrec = pDepl;
 			pDepl = pDepl->suivant;
 		}
-		if(pDepl == pPrec)
+		if(pPrec == NULL)
 		{
-			Trace("t3");
-			liste.setpTete(liste.getpTete()->suivant);
-			Trace("t5");
+			liste.setpTete(pCur->suivant);
 		}
 		else
 		{
 			pPrec ->suivant = pCur->suivant;
 		}
-		Trace("t7");
-		Trace("1: %d, 2: %d et suivant: %d",pDepl,pCur,pCur->suivant);
-		cout << pCur->valeur;
-		val = pCur->valeur;
-		Trace("t1");
 		delete pCur;
-		pCur = liste.getpTete();
+		this->reset();
 		return val;
 	}
 	else

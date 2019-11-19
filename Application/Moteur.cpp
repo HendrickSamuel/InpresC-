@@ -7,6 +7,7 @@ int Moteur::Insere(Image *pImage){
     {
       Trace("est une ImageB");
       imagesB.insere(*pB);
+      pB-> Dessine();
       return 1;
     }
     ImageNG* pNG = dynamic_cast<ImageNG*>(pImage);
@@ -14,6 +15,7 @@ int Moteur::Insere(Image *pImage){
     {
       Trace("est une ImageNG");
       imagesNG.insere(*pNG);
+      pNG->Dessine();
       return 2;
     }
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pImage);
@@ -21,6 +23,7 @@ int Moteur::Insere(Image *pImage){
     {
       Trace("est une ImageRGB");
       imagesRGB.insere(*pRGB);
+      pRGB->Dessine();
       return 3;
     }	
     return 0;
@@ -70,21 +73,18 @@ void Moteur::Affiche() const{
 }
 
 void Moteur::SupprimeImage(int id){
-	// avance dans la liste jusqu'a trouver puis je remove() 
+	TraceMethode("on demande le remove");
+	
 	Iterateur<ImageNG> it1(imagesNG);
-	Trace("1");
 	while(!it1.end() && it1.getpCur()->valeur.getId() != id)
 	{
 		it1++;
-		Trace("2");
 	}
 	
 	
 	if(!it1.end())
 	{
-		Trace("3");
 		it1.remove();
-		Trace("4");
 	}
 	else
 	{

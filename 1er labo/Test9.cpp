@@ -356,7 +356,7 @@ void Essai8()
 
   cout << "On supprime le 2eme element de la liste..." << endl;
   it.reset();  
-  //it++;        
+  it++;        
   ImageNG valeurRetiree = it.remove();
   it.remove();
   it.remove();
