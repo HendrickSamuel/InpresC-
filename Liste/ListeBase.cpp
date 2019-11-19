@@ -12,13 +12,11 @@ template <class T> ListeBase<T>::ListeBase(const ListeBase& old){
 	Trace("Constructeur de copie ListeBase");
 	#endif
 	pTete = NULL;
-	
-	Cellule<T> *pDeplOld;
-	Cellule<T> *pDepld;
+	Cellule<T> *pDeplOld = old.getpTete();
+	Cellule<T> *pDepld = this->getpTete();
 	Cellule<T> *pPrec = NULL;
 	
-	pDeplOld = old.pTete;
-	pDepld = pTete;
+
 	while(pDeplOld != NULL)
 	{
 		pDepld = new Cellule<T>;

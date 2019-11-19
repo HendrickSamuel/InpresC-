@@ -3,8 +3,12 @@
 ImageB Traitements::Seuillage(const ImageNG& imgNG,int seuil){
 	ImageB imgB;
 	imgB.setDimension(imgNG.getDimension());
-	for(int x=0; x < imgB.getDimension().getLargeur(); x++)
-		for(int y=0; y < imgB.getDimension().getHauteur(); y++)
+	
+	int larg = imgB.getDimension().getLargeur();
+	int haut = imgB.getDimension().getHauteur();
+	
+	for(int x=0; x < larg; x++)
+		for(int y=0; y < haut; y++)
 			{
 				if(imgNG.getPixel(x,y) > seuil)
 					imgB.setPixel(x,y,true);
@@ -38,9 +42,7 @@ ImageNG Traitements::FiltreMoyenneur(const ImageNG& imageIn, int taille, Pixel p
 				for(int y1 = y-(taille/2); y1 <= y+(taille/2); y1++)
 				{
 					
-					if(x1 < 0 || y1 < 0 || x1 > (imageIn.getDimension().getLargeur()-1) || y1 > (imageIn.getDimension().getHauteur()-1))
-						;//Trace("MAUVAIS pour le point [%d,%d], on cherche [%d,%d]",x,y,x1,y1);
-					else
+					if(!(x1 < 0 || y1 < 0 || x1 > (imageIn.getDimension().getLargeur()-1) || y1 > (imageIn.getDimension().getHauteur()-1)))
 						{
 							moyenne += imageIn.getPixel(x1,y1);
 							compteur++; 
@@ -76,7 +78,7 @@ ImageNG Traitements::FiltreMedian(const ImageNG& imageIn, int taille){
 					else
 						{
 							liste.insere(imageIn.getPixel(x1,y1));
-							compteur++; 
+							compteur++;
 							//Trace("BON pour le point [%d,%d], on cherche [%d,%d] avec valeur: %d",x,y,x1,y1,imageIn.getPixel(x1,y1));
 						}
 						

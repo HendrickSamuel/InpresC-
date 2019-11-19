@@ -234,7 +234,7 @@ bool ImageNG::operator==(const ImageNG& i1)
 	}
 	else
 	{
-		if(dimension != i1.dimension)
+		if(this->dimension != i1.dimension)
 			throw XYException('d',"Dimension comparaison PAP == inegale");
 		for(int i=0; (i < this->getDimension().getLargeur())&& (i< i1.getDimension().getLargeur());i++)
 				for(int j=0; (j< this->getDimension().getHauteur()) && (j < i1.getDimension().getHauteur());j++)

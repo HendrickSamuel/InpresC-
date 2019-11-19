@@ -31,7 +31,7 @@ class Image
 		const Dimension& getDimension() const;
 
 		void Save(ofstream &) const;
-		void Load(ifstream &) const;
+		void Load(ifstream &);
 		
 		virtual void Affiche() const =0;
 		virtual void Dessine() const =0;		

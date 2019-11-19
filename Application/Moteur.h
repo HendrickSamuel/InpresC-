@@ -10,6 +10,8 @@
 #include "Image.h"
 #include "MoteurException.h"
 
+using namespace std;
+
 	class Moteur
 	{
 		private :
@@ -17,17 +19,17 @@
 			Liste<ImageRGB> imagesRGB ;
 			Liste<ImageB> imagesB ;
 			
+			
+			
+		//...
+		public :
 			int Insere(Image *pImage);
 			ImageNG GetImageNG(int) throw(MoteurException);
 			Image* GetImage(int) throw(MoteurException);
-			
-		
-			
-	//...
-		public :
-			
 //			Moteur();
 //			~Moteur();
+			void Affiche() const;
+			void SupprimeImage(int);
 	//...
 	} ;
 

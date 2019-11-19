@@ -124,7 +124,7 @@ void Image::Save(ofstream & fichier) const{
 	dimension.Save(fichier); // 5. dimension
 }
 
-void Image::Load(ifstream & fichier) const{
+void Image::Load(ifstream & fichier){
 	int taillenom;
 	fichier.read((char*)&id,sizeof(int)); // 2. id
 	fichier.read((char*)&taillenom,sizeof(int)); // 3. taille du nom
