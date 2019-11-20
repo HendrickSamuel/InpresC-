@@ -21,7 +21,7 @@ LISTE_O = ListeBase.o Liste.o ListeTriee.o
 OBJ = $(EXCEPT_O) $(PIXEL_O) $(IMG_O) $(LISTE_O) Dimension.o  Ecran.o WindowSDL.o WindowSDLimage.o WindowSDLexception.o WindowSDLclick.o Couleur.o Matrice.o Iterateur.o Traitements.o Moteur.o
 
 
-ALL: Test1 Test2 Test3 Test4 Test5 Test6 Test7 Test8 Test9 Test10 Main
+ALL: Test1 Test2 Test3 Test4 Test5 Test6 Test7 Test8 Test9 Test10 Main mTestCopie2019
 
 clean: 
 	echo Repartons de zero;
@@ -67,6 +67,10 @@ Test9: $(OBJ) Test9.o
 Test10: $(OBJ) Test10.o
 	echo creation du fichier executable 10;
 	$(GPP) -o Test10 Test10.o $(OBJ);
+	
+mTestCopie2019: $(OBJ) mTestCopie2019.o
+	echo creation du fichier executable de test;
+	$(GPP) -o mTestCopie2019 mTestCopie2019.o $(OBJ);
 
 Main: $(OBJ) main.o
 	echo creation du Main;
@@ -219,3 +223,7 @@ Test10.o: Test10.cpp
 main.o: $(APPLICATION)/main.cpp
 	echo creation du main.o;
 	$(GPP) -c $(APPLICATION)/main.cpp;
+	
+mTestCopie2019.o: mTestCopie2019.cpp
+	echo creation du test.o;
+	$(GPP) -c mTestCopie2019.cpp;
