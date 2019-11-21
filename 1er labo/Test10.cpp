@@ -17,6 +17,7 @@ void Essai4();
 void Essai5();
 void Essai6();
 void Essai7();
+void Essai22();
 /*void Essai8();
 */
 int main(int argc,char* argv[])
@@ -37,6 +38,7 @@ int main(int argc,char* argv[])
       case 5 : Essai5(); break;
       case 6 : Essai6(); break;
       case 7 : Essai7(); break;
+      case 22: Essai22(); break;
 /*      case 8 : Essai8(); break;*/
       default : fini = true ; break;
     }
@@ -53,6 +55,7 @@ int Menu()
   cout << "---------------------------------------------------------------------------" << endl;
   cout << " 1. Test du Seuillage d'une ImageNG" << endl;
   cout << " 2. Test du filtre moyenneur sur une ImageNG" << endl;
+  cout << " 22. Test du filtre moyenneur sur une ImageRGB" << endl;
   cout << " 3. Test du filtre median sur une ImageNG" << endl;
   cout << " 4. Test de l'erosion sur une ImageNG" << endl;
   cout << " 5. Test de la dilatation sur une ImageNG" << endl;
@@ -103,6 +106,27 @@ void Essai2()
   cout << "Voici l'image de départ : " << image << endl; image2.Dessine();
 
   ImageNG imageFiltree2;
+  imageFiltree2 = Traitements::FiltreMoyenneur(image2,7);
+
+  cout << "Voici l'image filtree : " << imageFiltree2 << endl; imageFiltree2.Dessine();
+}
+
+void Essai22()
+{
+  cout << "***** 22. Test du filtre moyenneur sur une ImageRGB ********************************************" << endl;
+
+  ImageRGB image("../images/lena.bmp");
+  cout << "Voici l'image de départ : " << image << endl; image.Dessine();
+
+  ImageRGB imageFiltree;
+  imageFiltree = Traitements::FiltreMoyenneur(image,17,Pixel(100,100),Pixel(200,200));
+
+  cout << "Voici l'image filtree : " << imageFiltree << endl; imageFiltree.Dessine();
+
+  ImageRGB image2("../images/mandrill.bmp");
+  cout << "Voici l'image de départ : " << image << endl; image2.Dessine();
+
+  ImageRGB imageFiltree2;
   imageFiltree2 = Traitements::FiltreMoyenneur(image2,7);
 
   cout << "Voici l'image filtree : " << imageFiltree2 << endl; imageFiltree2.Dessine();

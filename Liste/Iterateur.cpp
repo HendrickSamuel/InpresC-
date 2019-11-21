@@ -24,31 +24,42 @@ template <class T> Cellule<T>* Iterateur<T>::getpCur(){
 }
 
 template <class T> T Iterateur<T>::remove(){
-	T val= pCur->valeur;
-	Cellule<T> *pDepl = liste.getpTete();
-	Cellule<T> *pPrec = NULL;
 	
 	if(pCur != NULL && !liste.estVide())
 	{
+		T val = pCur->valeur;
+		cout << pCur->valeur;
+		Cellule<T> *pDepl = liste.getpTete();
+		Cellule<T> *pPrec = NULL;
+		Trace("1");
+		Trace("2");
 		#ifdef DEVPLUS
 		Trace("1: %d, 2: %d et suivant: %d",pDepl,pCur,pCur->suivant);
 		#endif
 		
+		
 		while(pDepl != pCur && pDepl!= NULL)
 		{
+			Trace("3");
 			pPrec = pDepl;
 			pDepl = pDepl->suivant;
 		}
 		if(pPrec == NULL)
 		{
+			Trace("4");
 			liste.setpTete(pCur->suivant);
 		}
 		else
 		{
+			Trace("5");
 			pPrec ->suivant = pCur->suivant;
 		}
+		Trace("6");
 		delete pCur;
+		Trace("7");
+		cout << pCur->valeur;
 		this->reset();
+		Trace("8");
 		return val;
 	}
 	else

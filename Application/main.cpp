@@ -37,30 +37,30 @@ int main()
 //	m.Affiche();
 
 /* ------------ les 2 bugguent ----------------*/
-	 ListeTriee<ImageNG> liste;
-  Iterateur<ImageNG> it(liste);
+	ListeTriee<ImageNG> liste;
+  	Iterateur<ImageNG> it(liste);
 
-  ImageNG::setComparaison(ImageNG::LUMINANCE);
-
+  	ImageNG::setComparaison(ImageNG::LUMINANCE);
+	ImageNG *im = NULL;
   cout << "On insere quelques images..." << endl;
-  ImageNG im(1,"Test",Dimension(255,255));
-  im.setBackground(128);
-  m.Insere(&im);
-  ImageNG im2 = im -80;
-  im2.setId(2);
-  m.Insere(&im2);
   
-  ImageNG im3 = im +20;
-  im3.setId(3);
-  m.Insere(&im3);
+  	im = new ImageNG(1,"Test",Dimension(255,255));
+  im->setBackground(128);
+  m.Insere(im);
+// 	im = new ImageNG(2,"autre",Dimension(255,255));
+//  m.Insere(im);
+//  
+//  	im = new ImageNG(3,"testing",Dimension(266,266));
+//  m.Insere(im);
   
 
   m.Affiche();
 
  cout << endl;
 
-  cout << "On supprime le 2eme element de la liste..." << endl;
-  m.SupprimeImage(1);  
+  cout << "On supprime de la liste..." << endl;
+ m.SupprimeImage(1);
+//  m.Affiche();  
   m.SupprimeImage(2);
 	
 	

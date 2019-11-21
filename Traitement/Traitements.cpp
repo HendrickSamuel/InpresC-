@@ -20,6 +20,8 @@ ImageB Traitements::Seuillage(const ImageNG& imgNG,int seuil){
 
 ImageNG Traitements::FiltreMoyenneur(const ImageNG& imageIn, int taille, Pixel p1, Pixel p2)
 {
+	if(taille%2 == 0)
+		throw(BaseException("la taille de la modification doit etre impaire"));
 	ImageNG imgOut(imageIn);
 	int moyenne;
 	int compteur;
@@ -59,7 +61,28 @@ ImageNG Traitements::FiltreMoyenneur(const ImageNG& imageIn, int taille, Pixel p
 	return imgOut;
 }
 
+ImageRGB Traitements::FiltreMoyenneur(const ImageRGB& imageIn, int taille, Pixel p1, Pixel p2)
+{
+	if(taille%2 == 0)
+		throw(BaseException("la taille de la modification doit etre impaire"));
+		
+	ImageNG imageRouge(imageIn.getRouge());
+	ImageNG imageVert(imageIn.getVert());
+	ImageNG imageBleu(imageIn.getBleu());
+	ImageRGB imageOut(imageIn);
+	
+	imageRouge = FiltreMoyenneur(imageRouge, taille, p1, p2);
+	imageVert = FiltreMoyenneur(imageVert, taille, p1, p2);
+	imageBleu = FiltreMoyenneur(imageBleu, taille, p1, p2);
+	
+	imageOut.setRGB(imageRouge, imageVert, imageBleu);
+	return imageOut;	
+}
+
 ImageNG Traitements::FiltreMedian(const ImageNG& imageIn, int taille){
+	if(taille%2 != 0)
+			throw(BaseException("la taille de la modification doit etre impaire"));
+			
 	ImageNG imgOut(imageIn);
 	int compteur;
 	for(int x = 0; x < imageIn.getDimension().getLargeur(); x++)
@@ -98,6 +121,9 @@ ImageNG Traitements::FiltreMedian(const ImageNG& imageIn, int taille){
 }
 
 ImageNG Traitements::Erosion(const ImageNG& imageIn, int taille){
+	if(taille%2 == 0)
+		throw(BaseException("la taille de la modification doit etre impaire"));
+		
 	ImageNG imgOut(imageIn);
 	for(int x = 0; x < imageIn.getDimension().getLargeur(); x++)
 		for(int y = 0; y < imageIn.getDimension().getHauteur(); y++)
@@ -127,6 +153,9 @@ ImageNG Traitements::Erosion(const ImageNG& imageIn, int taille){
 }
 
 ImageNG Traitements::Dilatation(const ImageNG& imageIn, int taille){
+	if(taille%2 == 0)
+		throw(BaseException("la taille de la modification doit etre impaire"));
+		
 	ImageNG imgOut(imageIn);
 	int compteur;
 	for(int x = 0; x < imageIn.getDimension().getLargeur(); x++)

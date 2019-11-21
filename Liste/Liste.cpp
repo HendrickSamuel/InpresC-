@@ -66,3 +66,5 @@ template class Liste<Couleur>;
 template class Liste<ImageB>;
 #include "ImageRGB.h"
 template class Liste<ImageRGB>;
+#include "ImageNG.h"
+template class Liste<ImageNG>;

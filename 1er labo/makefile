@@ -12,7 +12,7 @@ TRAITEMENT = $(HOME)/Documents/C++/Traitement
 APPLICATION = $(HOME)/Documents/C++/Application
 
 INCL = -I $(ECRAN) -I $(DIM) -I $(PIX) -I $(SDL) -I $(IMAGE) -I $(COUL) -I $(EXCEPT) -I $(MATRICE) -I $(LISTE) -I $(TRAITEMENT) -I $(APPLICATION)
-GPP = g++ -m64 -Wall -D SUN -D CPP -lSDL -lpthread $(INCL) #-D DEV -D DEVPLUS
+GPP = g++ -g -m64 -Wall -D SUN -D CPP -lSDL -lpthread $(INCL) #-D DEV -D DEVPLUS
 IMG_O = Image.o ImageNG.o ImageRGB.o ImageB.o
 PIXEL_O = Pixel.o PixelNG.o PixelRGB.o PixelB.o
 EXCEPT_O = BaseException.o RGBException.o XYException.o MoteurException.o

@@ -11,6 +11,7 @@ using namespace std;
 #include "Couleur.h"
 #include "XYException.h"
 #include "Matrice.h"
+#include "ImageNG.h"
 
 class ImageRGB: public Image
 {
@@ -45,6 +46,11 @@ class ImageRGB: public Image
 		void Dessine() const;		
 		void importFromBMP(const char*);
 		void exportToBMP(const char*);
+		
+		ImageNG getRouge() const;
+		ImageNG getVert() const;
+		ImageNG getBleu() const;
+		void setRGB(const ImageNG &r, const ImageNG &g, const ImageNG& b);
 
 		
 		void Save(ofstream &) const; 

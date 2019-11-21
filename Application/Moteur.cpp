@@ -7,7 +7,7 @@ int Moteur::Insere(Image *pImage){
     {
       Trace("est une ImageB");
       imagesB.insere(*pB);
-      pB-> Dessine();
+      //pB-> Dessine();
       return 1;
     }
     ImageNG* pNG = dynamic_cast<ImageNG*>(pImage);
@@ -15,7 +15,7 @@ int Moteur::Insere(Image *pImage){
     {
       Trace("est une ImageNG");
       imagesNG.insere(*pNG);
-      pNG->Dessine();
+//      pNG->Dessine();
       return 2;
     }
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pImage);
@@ -23,7 +23,7 @@ int Moteur::Insere(Image *pImage){
     {
       Trace("est une ImageRGB");
       imagesRGB.insere(*pRGB);
-      pRGB->Dessine();
+//      pRGB->Dessine();
       return 3;
     }	
     return 0;
@@ -46,8 +46,8 @@ ImageNG Moteur::GetImageNG(int id) throw(MoteurException){
 }
 
 Image* Moteur::GetImage(int id) throw(MoteurException){
-	Liste<ImageRGB> lis(imagesRGB);
-	Iterateur<ImageRGB> it(lis);
+	/*--------IMAGESRGB----------*/
+	Iterateur<ImageRGB> it(imagesRGB);
 	
 	while(!it.end() && it.getpCur()->valeur.getId() != id)
 	{
@@ -56,6 +56,28 @@ Image* Moteur::GetImage(int id) throw(MoteurException){
 	
 	if(!it.end())
 		return &(it.getpCur()->valeur);
+	
+	/*--------IMAGESNG----------*/
+	Iterateur<ImageNG> it1(imagesNG);
+	
+	while(!it1.end() && it1.getpCur()->valeur.getId() != id)
+	{
+		it1++;
+	}
+	
+	if(!it1.end())
+		return &(it1.getpCur()->valeur);
+	
+	/*--------IMAGESB----------*/	
+	Iterateur<ImageB> it2(imagesB);
+	
+	while(!it2.end() && it2.getpCur()->valeur.getId() != id)
+	{
+		it2++;
+	}
+	
+	if(!it2.end())
+		return &(it2.getpCur()->valeur);
 	else
 		throw(MoteurException("l'image n'a pas ete trouvee'"));
 }
@@ -74,45 +96,15 @@ void Moteur::Affiche() const{
 
 void Moteur::SupprimeImage(int id){
 	TraceMethode("on demande le remove");
-	
-	Iterateur<ImageNG> it1(imagesNG);
-	while(!it1.end() && it1.getpCur()->valeur.getId() != id)
+	ImageNG imgtmp;
+	Iterateur<ImageNG> it(imagesNG);
+	while(!it.end() && it.getpCur()->valeur.getId() != id)
 	{
-		it1++;
+		it++;
 	}
-	
-	
-	if(!it1.end())
+	if(it.getpCur()->valeur.getId() == id)
 	{
-		it1.remove();
-	}
-	else
-	{
-		Iterateur<ImageRGB> it2(imagesRGB);
-		while(!it2.end() && it2.getpCur()->valeur.getId() != id)
-			{
-				it2++;
-			}
-			if(!it2.end())
-			{
-				it2.remove();
-				it2.reset();
-			}
-			else
-			{
-				Iterateur<ImageB> it3(imagesB);
-				while(!it3.end() && it3.getpCur()->valeur.getId() != id)
-					{
-						it3++;
-					}
-					if(!it3.end())
-					{
-						it3.remove();
-						it3.reset();
-					}
-					else
-						throw(MoteurException("l'id a supprimer n'existe pas"));
-			}
-	}
-		
+		Trace("trouvé");
+		imgtmp = it.remove();
+	} 
 }

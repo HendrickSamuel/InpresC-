@@ -231,6 +231,61 @@ void ImageRGB::exportToBMP(const char* fichier)
 	
 }
 
+/*---------------- BONUS -----------------*/
+	
+	ImageNG ImageRGB::getRouge() const{
+		ImageNG imRetour(0,this->getNom(),this->getDimension());
+		int larg = this->getDimension().getLargeur();
+		int haut = this->getDimension().getHauteur();
+		for(int x = 0; x < larg; x++)
+			for(int y = 0; y < haut; y++)
+				imRetour.setPixel(x,y,this->getPixel(x,y).getRouge());
+				
+		return imRetour;
+	}
+	ImageNG ImageRGB::getVert() const{
+		ImageNG imRetour(0,this->getNom(),this->getDimension());
+		int larg = this->getDimension().getLargeur();
+		int haut = this->getDimension().getHauteur();
+		for(int x = 0; x < larg; x++)
+			for(int y = 0; y < haut; y++)
+				imRetour.setPixel(x,y,this->getPixel(x,y).getVert());
+				
+		return imRetour;
+	}
+	ImageNG ImageRGB::getBleu() const{
+		ImageNG imRetour(0,this->getNom(),this->getDimension());
+		int larg = this->getDimension().getLargeur();
+		int haut = this->getDimension().getHauteur();
+		for(int x = 0; x < larg; x++)
+			for(int y = 0; y < haut; y++)
+				imRetour.setPixel(x,y,this->getPixel(x,y).getBleu());
+				
+		return imRetour;
+	}
+	void ImageRGB::setRGB(const ImageNG &r, const ImageNG &g, const ImageNG& b){
+		if(1)// j'arrive pas a comparer les dimension
+		{	
+			Couleur pixel;
+			this->setDimension(r.getDimension());
+			int larg = this->getDimension().getLargeur();
+			int haut = this->getDimension().getHauteur();
+			for(int x = 0; x < larg; x++)
+				for(int y = 0; y < haut; y++)
+				{
+					pixel.setRouge(r.getPixel(x,y));
+					pixel.setVert(g.getPixel(x,y));
+					pixel.setBleu(g.getPixel(x,y));
+					this->setPixel(x,y,pixel);
+				}
+		}
+		else
+			throw(XYException(1,"les 3 matrices n'ont pas la meme tailles"));
+		
+	}
+	
+/*---------------- FIN BONUS -----------------*/
+
 void ImageRGB::Save(ofstream & fichier) const
 {
 	char type = 'C';
