@@ -99,6 +99,7 @@ void Essai2()  // Attention : utilisez les flux bytes (read et write) !!!!
 
   cout << "----- Chargement de l'image situee dans le fichier NG.dat -----" << endl;
   ifstream fichier2("NG.dat",ios::in);
+  
   ImageNG i2;
   try{
   	i2.Load(fichier2);

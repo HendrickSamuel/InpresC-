@@ -18,10 +18,10 @@ PIXEL_O = Pixel.o PixelNG.o PixelRGB.o PixelB.o
 EXCEPT_O = BaseException.o RGBException.o XYException.o MoteurException.o
 LISTE_O = ListeBase.o Liste.o ListeTriee.o
 
-OBJ = $(EXCEPT_O) $(PIXEL_O) $(IMG_O) $(LISTE_O) Dimension.o  Ecran.o WindowSDL.o WindowSDLimage.o WindowSDLexception.o WindowSDLclick.o Couleur.o Matrice.o Iterateur.o Traitements.o Moteur.o
+OBJ = $(EXCEPT_O) $(PIXEL_O) $(IMG_O) $(LISTE_O) Dimension.o  Ecran.o WindowSDL.o WindowSDLimage.o WindowSDLexception.o WindowSDLclick.o Couleur.o Matrice.o Iterateur.o Traitements.o Moteur.o UI.o
 
 
-ALL: Test1 Test2 Test3 Test4 Test5 Test6 Test7 Test8 Test9 Test10 Main mTestCopie2019
+ALL: Main
 
 clean: 
 	echo Repartons de zero;
@@ -68,9 +68,9 @@ Test10: $(OBJ) Test10.o
 	echo creation du fichier executable 10;
 	$(GPP) -o Test10 Test10.o $(OBJ);
 	
-mTestCopie2019: $(OBJ) mTestCopie2019.o
+mTestEgal2019: $(OBJ) mTestEgal2019.o
 	echo creation du fichier executable de test;
-	$(GPP) -o mTestCopie2019 mTestCopie2019.o $(OBJ);
+	$(GPP) -o mTestEgal2019 mTestEgal2019.o $(OBJ);
 
 Main: $(OBJ) main.o
 	echo creation du Main;
@@ -180,6 +180,10 @@ Moteur.o: $(APPLICATION)/Moteur.cpp $(APPLICATION)/Moteur.h
 	echo creation de Moteur.o;
 	$(GPP) -c $(APPLICATION)/Moteur.cpp;
 
+UI.o: $(APPLICATION)/UI.cpp $(APPLICATION)/UI.h
+	echo creation de UI.o;
+	$(GPP) -c $(APPLICATION)/UI.cpp;
+
 Test1.o: Test1.cpp
 	echo creation de Test1.o;
 	$(GPP) -c Test1.cpp;	
@@ -224,6 +228,6 @@ main.o: $(APPLICATION)/main.cpp
 	echo creation du main.o;
 	$(GPP) -c $(APPLICATION)/main.cpp;
 	
-mTestCopie2019.o: mTestCopie2019.cpp
+mTestEgal2019.o: mTestEgal2019.cpp
 	echo creation du test.o;
-	$(GPP) -c mTestCopie2019.cpp;
+	$(GPP) -c mTestEgal2019.cpp;

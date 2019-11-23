@@ -1,7 +1,7 @@
 #include "Matrice.h"
 
 		/*---------------------- CONSTRUCTEURS / DESCTRUCTEUR ----------------------*/
-		template <class T> Matrice<T>::Matrice(){
+		template <class T> Matrice<T>::Matrice(){ //pas utilisé 
 			#ifdef DEV
 			TraceConstructeur("Constructeur Matrice Defaut");
 			#endif
@@ -29,7 +29,7 @@
 					setValeur(x,y,val);
 		}
 		
-		template <class T> Matrice<T>::Matrice(const Matrice& m){
+		template <class T> Matrice<T>::Matrice(const Matrice<T>& m){
 			#ifdef DEV
 			TraceConstructeur("Constructeur Matrice par copie");
 			#endif
@@ -50,12 +50,13 @@
 			{
 				for (int x=0 ; x<getLargeur() ; x++) delete[] tab[x];
 				delete[] tab;
+				tab = NULL;
 			}
 			
 		}
 		
 		/*---------------------- OPPERATEURS ----------------------*/
-		template <class T> const Matrice<T>& Matrice<T>::operator=(const Matrice& old){
+		template <class T> const Matrice<T>& Matrice<T>::operator=(const Matrice<T>& old){
 			creeTab(old.getLargeur(),old.getHauteur());
 			
 			for(int x = 0; x < getLargeur(); x++)
@@ -74,14 +75,17 @@
 		
 		/*---------------------- SETTEURS ----------------------*/		
 		template <class T> void Matrice<T>::setValeur(int x,int y,const T& val){
+			//exception
 			tab[x][y] = val;
 		}
 		
 		template <class T> void Matrice<T>::setLargeur(int L){
+			//exception
 			largeur = L;
 		}
 		
 		template <class T> void Matrice<T>::setHauteur(int H){
+			//exception
 			hauteur = H;
 		}
 
@@ -107,6 +111,7 @@
 			{
 				for (int x=0 ; x<getLargeur() ; x++) delete[] tab[x];
 				delete[] tab;
+//				tab = NULL;
 			}			
 			
 			setLargeur(newLargeur);

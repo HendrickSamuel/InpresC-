@@ -9,9 +9,10 @@ using namespace std;
 class Image
 {
 	protected: 
+		Dimension dimension;	
 		int id;
 		char* nom;
-		Dimension dimension;		
+			
 
 	public:
 
@@ -34,7 +35,8 @@ class Image
 		void Load(ifstream &);
 		
 		virtual void Affiche() const =0;
-		virtual void Dessine() const =0;		
+		virtual void Dessine() const =0;
+		virtual void Dessine(int,int) const = 0;		
 		virtual void exportToBMP(const char*) =0;
 
 		

@@ -98,11 +98,11 @@ ImageB operator+(const PixelB& pixel,ImageB& img)
 
 ostream& operator<<(ostream& s, const ImageB& img)
 {
-	s<<"id: " <<img.getId()<<endl;	
+	s<<"id: " <<img.getId()<<" ";	
 	if(img.getNom())
-		s << " nom: "<< img.getNom() << endl;	
+		s << " nom: "<< img.getNom() << " ";	
 	else
-		s << "pas de nom" << endl;
+		s << "pas de nom" << " ";
 	s << "largeur: " << img.dimension.getLargeur() << " hauteur: " << img.dimension.getHauteur();
 	s << endl;
 	
@@ -204,6 +204,25 @@ void ImageB::Dessine() const
 	WindowSDL::close();
 }
 
+void ImageB::Dessine(int x, int y) const
+{
+	WindowSDLimage image(getDimension().getLargeur(),getDimension().getHauteur());
+	for(int i= 0; i < getDimension().getLargeur(); i++)
+		for(int j = 0; j < getDimension().getHauteur();j++)
+			if(getPixel(i,j))
+				{
+					//TraceMethode("true");
+					image.setPixel(i,j,couleurTrue.getRouge(),couleurTrue.getVert(),couleurTrue.getBleu());
+				}
+			else
+				{
+					//TraceMethode("false");
+					image.setPixel(i,j,couleurFalse.getRouge(),couleurFalse.getVert(),couleurFalse.getBleu());
+				}
+				
+	WindowSDL::drawImage(image,x,y);
+}
+
 
 void ImageB::exportToBMP(const char* fichier)
 {
@@ -221,13 +240,8 @@ void ImageB::exportToBMP(const char* fichier)
 
 void ImageB::Save(ofstream & fichier) const
 {
-	char type = 'B';
-	int taillenom = strlen(nom);
 	bool pixel;
-	fichier.write(&type,sizeof(char)); // 1. type
-	fichier.write((char*)&id,sizeof(int)); // 2. id
-	fichier.write((char*)&taillenom,sizeof(int)); // 3. taille du nom
-	fichier.write(nom,sizeof(char)*taillenom); // 4. nom
+	Image::Save(fichier);
 	
 	dimension.Save(fichier); // 5. dimension
 	
@@ -241,25 +255,9 @@ void ImageB::Save(ofstream & fichier) const
 
 void ImageB::Load(ifstream & fichier)
 {
-	char type = 'X';
-	int taillenom;
-	bool pixel;
-	fichier.read(&type,sizeof(char));// 1. type
-	if(type != 'B')
-	{
-		Trace("mauvais type");
-		//throw erreur
-	}
-	#ifdef DEVPLUS
-	Trace("bon type");
-	#endif
 	
-	fichier.read((char*)&id,sizeof(int)); // 2. id
-	fichier.read((char*)&taillenom,sizeof(int)); // 3. taille du nom
-	char* nomtmp = new char[taillenom+1]; 
-	fichier.read(nomtmp,taillenom); // 4. nom
-	setNom(nomtmp);
-	delete[] nomtmp;
+	bool pixel;
+	Image::Load(fichier);
 	dimension.Load(fichier);
 	matrice.Redimension(dimension);
 	

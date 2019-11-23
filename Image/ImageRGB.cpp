@@ -101,11 +101,11 @@ ImageRGB operator+(const PixelRGB& pixel,ImageRGB& img)
 
 ostream& operator<<(ostream& s, const ImageRGB& img)
 {
-	s<<"id: " <<img.getId()<<endl;
+	s<<"id: " <<img.getId()<<" ";
 	if(img.getNom())
-		s << " nom: "<< img.getNom() << endl;	
+		s << " nom: "<< img.getNom() << " ";	
 	else
-		s << "pas de nom" << endl;
+		s << "pas de nom" << " ";
 	s << "largeur: " << img.dimension.getLargeur() << " hauteur: " << img.dimension.getHauteur();
 	s << endl;
 	
@@ -201,6 +201,19 @@ void ImageRGB::Dessine() const
 	WindowSDL::close();
 }
 
+void ImageRGB::Dessine(int x,int y) const{
+	Couleur coultmp;
+	WindowSDLimage image(getDimension().getLargeur(),getDimension().getHauteur());
+	for(int i= 0; i < getDimension().getLargeur(); i++)
+		for(int j = 0; j < getDimension().getHauteur();j++)
+		{	
+			coultmp = getPixel(i,j);
+			image.setPixel(i,j,coultmp.getRouge(),coultmp.getVert(),coultmp.getBleu());
+		}
+			
+	WindowSDL::drawImage(image,x,y);
+}
+
 void ImageRGB::importFromBMP(const char* fichier)
 {
 	Couleur coul;
@@ -288,13 +301,10 @@ void ImageRGB::exportToBMP(const char* fichier)
 
 void ImageRGB::Save(ofstream & fichier) const
 {
-	char type = 'C';
+	
 	int taillenom = strlen(nom);
 	Couleur pixel;
-	fichier.write(&type,sizeof(char)); // 1. type
-	fichier.write((char*)&id,sizeof(int)); // 2. id
-	fichier.write((char*)&taillenom,sizeof(int)); // 3. taille du nom
-	fichier.write(nom,sizeof(char)*taillenom); // 4. nom
+	Image::Save(fichier);
 	dimension.Save(fichier); // 5. dimension
 	
 	for(int x = 0; x < dimension.getLargeur(); x++)
@@ -307,26 +317,9 @@ void ImageRGB::Save(ofstream & fichier) const
 
 void ImageRGB::Load(ifstream & fichier)
 {
-	char type = 'X';
-	int taillenom;
 	Couleur pixel;
-	fichier.read(&type,sizeof(char));// 1. type
-	if(type != 'C')
-	{
-		Trace("mauvais type");
-		//throw erreur
-	}
-	#ifdef DEVPLUS
-	Trace("bon type");
-	#endif
+	Image::Load(fichier);
 	
-	fichier.read((char*)&id,sizeof(int)); // 2. id
-	fichier.read((char*)&taillenom,sizeof(int)); // 3. taille du nom
-	char* nomtmp = new char[taillenom+1]; 
-	fichier.read(nomtmp,taillenom); // 4. nom
-	setNom(nomtmp);
-	delete[] nomtmp;
-	dimension.Load(fichier);
 	matrice.Redimension(dimension);
 	
 	for(int x = 0; x < dimension.getLargeur(); x++)

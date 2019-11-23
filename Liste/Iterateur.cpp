@@ -4,10 +4,6 @@ template <class T> Iterateur<T>::Iterateur(ListeBase<T>& list):liste(list),pCur(
 
 }
 
-template <class T> Iterateur<T>::~Iterateur(){
-	delete pCur;
-}
-
 template <class T> void Iterateur<T>::reset(){
 	pCur = liste.getpTete();
 }
@@ -19,52 +15,43 @@ template <class T> bool Iterateur<T>::end(){
 		return false;	
 }
 
-template <class T> Cellule<T>* Iterateur<T>::getpCur(){
+template <class T> Cellule<T>* Iterateur<T>::getpCur()const{
 	return pCur;
 }
 
 template <class T> T Iterateur<T>::remove(){
 	
 	if(pCur != NULL && !liste.estVide())
-	{
+	{	
 		T val = pCur->valeur;
-		cout << pCur->valeur;
 		Cellule<T> *pDepl = liste.getpTete();
 		Cellule<T> *pPrec = NULL;
-		Trace("1");
-		Trace("2");
+		
 		#ifdef DEVPLUS
 		Trace("1: %d, 2: %d et suivant: %d",pDepl,pCur,pCur->suivant);
 		#endif
-		
-		
+			
 		while(pDepl != pCur && pDepl!= NULL)
 		{
-			Trace("3");
 			pPrec = pDepl;
 			pDepl = pDepl->suivant;
 		}
 		if(pPrec == NULL)
 		{
-			Trace("4");
-			liste.setpTete(pCur->suivant);
+//			liste.setpTete(pCur->suivant);
+			liste.setpTete(liste.pTete->suivant);
 		}
 		else
 		{
-			Trace("5");
-			pPrec ->suivant = pCur->suivant;
+			pPrec ->suivant = pDepl->suivant;
 		}
-		Trace("6");
 		delete pCur;
-		Trace("7");
-		cout << pCur->valeur;
 		this->reset();
-		Trace("8");
 		return val;
 	}
 	else
 	{
-		throw BaseException("la liste est vide");
+		throw BaseException("la liste est vide ou le pointeur est a la fin");
 	}
 }
 

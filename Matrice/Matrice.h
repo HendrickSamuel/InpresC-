@@ -17,10 +17,10 @@ template <class T> class Matrice
 		Matrice();
 		Matrice(int,int);
 		Matrice(int,int,const T&);
-		Matrice(const Matrice&);
+		Matrice(const Matrice<T>&);
 		~Matrice();
 		
-		const Matrice<T>& operator=(const Matrice&);
+		const Matrice<T>& operator=(const Matrice<T>&);
 		const T operator()(int x,int y) const;
 		T& operator()(int x,int y);		
 		

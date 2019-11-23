@@ -13,11 +13,10 @@ template <class T> class Iterateur
 		
 	public:
 		Iterateur(ListeBase<T>&);
-		~Iterateur();
 		
 		void reset(); //qui réinitialise l’itérateur au début de la liste.
 		bool end(); //qui retourne le booléen true si l’itérateur est situé au bout de la liste.
-		Cellule<T>* getpCur();
+		Cellule<T>* getpCur() const; //const
 		T remove(); //qui supprime de la liste et retourne l’élément pointé par l’itérateur.
 		bool operator++();//Opérateur ++ qui déplace l’itérateur vers la droite.
 		bool operator++(int);

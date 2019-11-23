@@ -80,7 +80,7 @@ ImageRGB Traitements::FiltreMoyenneur(const ImageRGB& imageIn, int taille, Pixel
 }
 
 ImageNG Traitements::FiltreMedian(const ImageNG& imageIn, int taille){
-	if(taille%2 != 0)
+	if(taille%2 == 0)
 			throw(BaseException("la taille de la modification doit etre impaire"));
 			
 	ImageNG imgOut(imageIn);
@@ -95,16 +95,11 @@ ImageNG Traitements::FiltreMedian(const ImageNG& imageIn, int taille){
 			{
 				for(int y1 = y-(taille/2); y1 <= y+(taille/2); y1++)
 				{
-					
-					if(x1 < 0 || y1 < 0 || x1 > (imageIn.getDimension().getLargeur()-1) || y1 > (imageIn.getDimension().getHauteur()-1))
-						;//Trace("MAUVAIS pour le point [%d,%d], on cherche [%d,%d]",x,y,x1,y1);
-					else
+					if(!(x1 < 0 || y1 < 0 || x1 > (imageIn.getDimension().getLargeur()-1) || y1 > (imageIn.getDimension().getHauteur()-1)))
 						{
 							liste.insere(imageIn.getPixel(x1,y1));
 							compteur++;
-							//Trace("BON pour le point [%d,%d], on cherche [%d,%d] avec valeur: %d",x,y,x1,y1,imageIn.getPixel(x1,y1));
 						}
-						
 				}
 			}
 			compteur = compteur/2;
@@ -113,9 +108,7 @@ ImageNG Traitements::FiltreMedian(const ImageNG& imageIn, int taille){
 			{
 				iterateur++;
 			}
-//			Trace("moyenne: %d", moyenne);
 			imgOut.setPixel(x,y,iterateur.remove());
-			//exit(0);
 		}
 	return imgOut;
 }

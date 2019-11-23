@@ -111,7 +111,7 @@ va_list arg;
 va_start(arg,pTrace);
 vsprintf(Buffer,pTrace,arg);
 #ifdef CPP
-cout << endl <<  "\033[31;01m" <<  Buffer << "\033[0m"  << endl;
+cout << endl <<  "\033[32;01m" <<  Buffer << "\033[0m"  << endl;
 #else
 
 printf("%s\n",Buffer);
@@ -121,6 +121,24 @@ va_end(arg);
 return ;
 
 }
+
+//void TitreCouleur(const char *pTrace,int couleur, ... )
+//{
+//char Buffer[255];
+//va_list arg;
+//va_start(arg,pTrace);
+//vsprintf(Buffer,pTrace,arg);
+//#ifdef CPP
+//cout << endl <<  "\033["<<couleur<<";01m" <<  Buffer << "\033[0m"  << endl;
+//#else
+
+//printf("%s\n",Buffer);
+//fflush(stdout);
+//#endif
+//va_end(arg);
+//return ;
+
+//}
 
 #ifdef CPP
 void TraceConstructeur1(const char* NomClass,const char* Fonction,const char *pTrace,... )

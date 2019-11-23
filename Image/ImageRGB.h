@@ -44,6 +44,7 @@ class ImageRGB: public Image
 		
 		void Affiche() const;
 		void Dessine() const;		
+		void Dessine(int,int) const;
 		void importFromBMP(const char*);
 		void exportToBMP(const char*);
 		

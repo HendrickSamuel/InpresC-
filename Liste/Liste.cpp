@@ -7,14 +7,6 @@ template <class T> Liste<T>::Liste() : ListeBase<T>::ListeBase(){
 }
 
 template <class T> Liste<T>::Liste(const Liste& old): Liste<T>::ListeBase(old){
-//	Cellule<T> *pt = NULL;
-//	pt = old.pTete;
-//	
-//	while(pt != NULL)
-//	{
-//		insere(pt->valeur);
-//		pt = pt->suivant;
-//	}
 }
 
 template <class T>Liste<T>::~Liste(){

@@ -1,6 +1,0 @@
-g++ -Wall -g -c class.cpp 
-// cree l'objet 
-
-g++ -Wall -o main main.cpp class.o
-// cree l'exe
-

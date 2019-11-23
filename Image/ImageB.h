@@ -44,6 +44,7 @@ class ImageB: public Image
 		
 		void Affiche() const;
 		void Dessine() const;		
+		void Dessine(int,int) const;
 		void exportToBMP(const char*);
 		
 		void Save(ofstream &) const; 

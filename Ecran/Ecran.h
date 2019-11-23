@@ -41,6 +41,7 @@ void Trace1(const char*,int,const char*,...);
 
 #define Trace(...) Trace1(__FILE__,__LINE__,__VA_ARGS__)
 void Titre(const char *,...);
+//void TitreCouleur(const char *,int,...);
 #ifdef CPP
 #define AAA (const char*)typeid(*this).name()
 #define TraceConstructeur(...) TraceConstructeur1(AAA,__FUNCTION__,__VA_ARGS__)

@@ -59,7 +59,7 @@ ImageNG::ImageNG(const ImageNG& old):Image(old), matrice(0,0,0)
 
 ImageNG::ImageNG(int idget, const char* chaineget,const  Dimension& olddim): Image(idget,chaineget), matrice(olddim.getLargeur(),olddim.getHauteur(),0)
 {	
-	#ifdef DEV
+	#ifdef DEV  
 	TraceConstructeur("Constructeur ImageNG par valeur complete");
 	#endif
 	setDimension(olddim);
@@ -259,14 +259,14 @@ ImageNG operator+(int valeur,const ImageNG& img)
 
 ostream& operator<<(ostream& s, const ImageNG& img)
 {
-	s<<"id: " <<img.getId() << endl;	
+	s<<"id: " <<img.getId() <<" ";	
 	if(img.getNom())
-		s << " nom: "<< img.getNom() << endl;	
+		s << " nom: "<< img.getNom()<< " ";	
 	else
-		s << "pas de nom" << endl;
-	s << "largeur: " << img.dimension.getLargeur() << " hauteur: " << img.dimension.getHauteur();
-	s << " luminance: " << img.getLuminance() << " contraste: " << img.getContraste();	
-	s << endl;
+		s << "pas de nom";
+	s << "largeur: " << img.getDimension().getLargeur()<< " hauteur: " << img.getDimension().getHauteur() << " ";
+	s << " luminance: " << img.getLuminance() << " ";
+	s << " contraste: " << img.getContraste() << endl;
 	
 	return s;
 }
@@ -329,7 +329,7 @@ void ImageNG::setDimension(const Dimension& olddim)
 				#ifdef DEVPLUS
 				Trace("valeur du set en [%d,%d] %d",x,y, mattmp(x,y));
 				#endif
-				matrice.setValeur(x,y,matrice(x,y));				
+				mattmp.setValeur(x,y,matrice(x,y));				
 			}
 				
 	}
@@ -430,6 +430,15 @@ void ImageNG::Dessine() const
 	WindowSDL::close();
 }
 
+void ImageNG::Dessine(int x,int y) const{
+	WindowSDLimage image(getDimension().getLargeur(),getDimension().getHauteur());
+	for(int i= 0; i < getDimension().getLargeur(); i++)
+		for(int j = 0; j < getDimension().getHauteur();j++)
+			image.setPixel(i,j,getPixel(i,j),getPixel(i,j),getPixel(i,j));
+		
+	WindowSDL::drawImage(image,x,y);
+}
+
 void ImageNG::importFromBMP(const char* fichier)
 {
 	int gris,rouge,vert,bleu;
@@ -461,9 +470,7 @@ void ImageNG::exportToBMP(const char* fichier)
 
 void ImageNG::Save(ofstream & fichier) const
 {
-	char type = 'N';
 	int pixel;
-	fichier.write(&type,sizeof(char)); // 1. type
 	Image::Save(fichier);
 	
 	for(int x = 0; x < dimension.getLargeur(); x++)
@@ -476,17 +483,7 @@ void ImageNG::Save(ofstream & fichier) const
 
 void ImageNG::Load(ifstream & fichier)
 {
-	char type = 'X';
 	int pixel;
-	fichier.read(&type,sizeof(char));// 1. type
-	if(type != 'N')
-	{
-		Trace("mauvais type");
-		//throw erreur
-	}
-	#ifdef DEVPLUS
-	Trace("bon type");
-	#endif
 	Image::Load(fichier);
 	
 	setDimension(this->getDimension());

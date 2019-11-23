@@ -124,7 +124,7 @@ template <class T> void ListeBase<T>::Affiche() const{
 	pSupp = getpTete();
 	while(pSupp != NULL)
 	{
-		cout << pSupp->valeur << " ";
+		cout <<" "<< pSupp->valeur;
 		pSupp = pSupp ->suivant;
 	}
 	cout << endl;
