@@ -17,20 +17,19 @@
 		cout << " 4. Exporter vers BMP"<<endl;
 		cout << " 5. Supprimer une Image"<<endl;
 		Titre("**********Menu Images*****************************************************************************");
-		
-		Titre("**********Menu ImageNG*****************************************************************************");
-		cout << " 6. Importer une imageNG" <<endl;
-		cout << " 7. Augmenter la luminosite" <<endl;
-		cout << " 8. Diminuer la luminosite" <<endl;
-		cout << " 9. Soustraire deux images" <<endl;
-		cout << "10. Seuillage" <<endl;
 		cout << "11. Filtre Moyenneur" <<endl;
 		cout << "12. Filtre Median"<<endl;
 		cout << "13. Erosion"<<endl;
 		cout << "14. Dilatation"<<endl;
 		cout << "15. Negatif"<<endl;
+		Titre("**********Menu ImageNG*****************************************************************************");
+		cout << " 6. \033[34;01m Importer une imageNG \033[0m" <<endl;
+		cout << " 7. Augmenter la luminosite" <<endl;
+		cout << " 8. Diminuer la luminosite" <<endl;
+		cout << " 9. Soustraire deux images" <<endl;
+		cout << "10. Seuillage" <<endl;
 		Titre("**********Menu ImageRGB****************************************************************************");
-		cout << "16. Importer une ImageRGB"<<endl;
+		cout << "16. \033[34;01m Importer une ImageRGB \033[0m"<<endl;
 		Titre("**********Menu ImageB******************************************************************************");
 		cout << "17. Changer les couleurs des booleens"<<endl;
 		Titre("***************************************************************************************************");

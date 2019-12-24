@@ -25,17 +25,43 @@ ImageNG Traitements::FiltreMoyenneur(const ImageNG& imageIn, int taille, Pixel p
 	ImageNG imgOut(imageIn);
 	int moyenne;
 	int compteur;
+	int xbase1, xbase2;
+	int ybase1, ybase2;
 	if(p1 == p2)
 	{
-		p2.setX(imageIn.getDimension().getLargeur());
-		p2.setY(imageIn.getDimension().getHauteur());
+		ybase1 = p1.getY();
+		ybase2 = imageIn.getDimension().getHauteur();
+		xbase1 = p1.getX();
+		xbase2 = imageIn.getDimension().getLargeur();
 	}
+	else
+	{
+		if(p1.getY() < p2.getY())
+		{
+			ybase1 = p1.getY();
+			ybase2 = p2.getY();
+		}		
+		else
+		{
+			ybase1 = p2.getY();
+			ybase2 = p1.getY();
+		}	
+			
 		
-	// si p1 > p2 ?
-	 
+		if(p1.getY() < p2.getY())
+		{
+			xbase1 = p1.getX();
+			xbase2 = p2.getX();
+		}		
+		else
+		{
+			xbase1 = p2.getX();
+			xbase2 = p1.getX();
+		}	
+	}	 
 	
-	for(int x = p1.getX(); x < imageIn.getDimension().getLargeur() && x < p2.getX(); x++)
-		for(int y = p1.getY(); y < imageIn.getDimension().getHauteur() && y < p2.getY(); y++)
+	for(int x = xbase1; x < imageIn.getDimension().getLargeur() && x < xbase2; x++)
+		for(int y = ybase1; y < imageIn.getDimension().getHauteur() && y < ybase2; y++)
 		{
 			compteur = 0;
 			moyenne = 0;
@@ -113,6 +139,24 @@ ImageNG Traitements::FiltreMedian(const ImageNG& imageIn, int taille){
 	return imgOut;
 }
 
+ImageRGB Traitements::FiltreMedian(const ImageRGB& imageIn, int taille)
+{
+	if(taille%2 == 0)
+		throw(BaseException("la taille de la modification doit etre impaire"));
+		
+	ImageNG imageRouge(imageIn.getRouge());
+	ImageNG imageVert(imageIn.getVert());
+	ImageNG imageBleu(imageIn.getBleu());
+	ImageRGB imageOut(imageIn);
+	
+	imageRouge = FiltreMedian(imageRouge, taille);
+	imageVert = FiltreMedian(imageVert, taille);
+	imageBleu = FiltreMedian(imageBleu, taille);
+	
+	imageOut.setRGB(imageRouge, imageVert, imageBleu);
+	return imageOut;	
+}
+
 ImageNG Traitements::Erosion(const ImageNG& imageIn, int taille){
 	if(taille%2 == 0)
 		throw(BaseException("la taille de la modification doit etre impaire"));
@@ -143,6 +187,23 @@ ImageNG Traitements::Erosion(const ImageNG& imageIn, int taille){
 			//exit(0);
 		}
 	return imgOut;
+}
+
+ImageRGB Traitements::Erosion(const ImageRGB& imageIn, int taille){
+	if(taille%2 == 0)
+		throw(BaseException("la taille de la modification doit etre impaire"));
+		
+	ImageNG imageRouge(imageIn.getRouge());
+	ImageNG imageVert(imageIn.getVert());
+	ImageNG imageBleu(imageIn.getBleu());
+	ImageRGB imageOut(imageIn);
+	
+	imageRouge = Erosion(imageRouge, taille);
+	imageVert = Erosion(imageVert, taille);
+	imageBleu = Erosion(imageBleu, taille);
+	
+	imageOut.setRGB(imageRouge, imageVert, imageBleu);
+	return imageOut;	
 }
 
 ImageNG Traitements::Dilatation(const ImageNG& imageIn, int taille){
@@ -185,6 +246,23 @@ ImageNG Traitements::Dilatation(const ImageNG& imageIn, int taille){
 	return imgOut;
 }
 
+ImageRGB Traitements::Dilatation(const ImageRGB& imageIn, int taille){
+	if(taille%2 == 0)
+		throw(BaseException("la taille de la modification doit etre impaire"));
+		
+	ImageNG imageRouge(imageIn.getRouge());
+	ImageNG imageVert(imageIn.getVert());
+	ImageNG imageBleu(imageIn.getBleu());
+	ImageRGB imageOut(imageIn);
+	
+	imageRouge = Dilatation(imageRouge, taille);
+	imageVert = Dilatation(imageVert, taille);
+	imageBleu = Dilatation(imageBleu, taille);
+	
+	imageOut.setRGB(imageRouge, imageVert, imageBleu);
+	return imageOut;	
+}
+
 ImageNG Traitements::Negatif(const ImageNG& imageIn)
 {
 	ImageNG imgOut(imageIn);
@@ -192,4 +270,19 @@ ImageNG Traitements::Negatif(const ImageNG& imageIn)
 		for(int y = 0; y < imageIn.getDimension().getHauteur(); y++)
 			imgOut.setPixel(x,y,(255-imageIn.getPixel(x,y)));
 	return imgOut;
+}
+
+ImageRGB Traitements::Negatif(const ImageRGB& imageIn){
+		
+	ImageNG imageRouge(imageIn.getRouge());
+	ImageNG imageVert(imageIn.getVert());
+	ImageNG imageBleu(imageIn.getBleu());
+	ImageRGB imageOut(imageIn);
+	
+	imageRouge = Negatif(imageRouge);
+	imageVert = Negatif(imageVert);
+	imageBleu = Negatif(imageBleu);
+	
+	imageOut.setRGB(imageRouge, imageVert, imageBleu);
+	return imageOut;	
 }

@@ -96,7 +96,7 @@ void Moteur::Start(){
 	ifstream fich("sauvegarde.dat",ios::in);
 	if(fich.is_open())
 	{
-		Trace("A");
+		cout << "Veuillez patienter pendant que le systeme charge votre derniere sauvegarde .." << endl;
 		this->Load(fich);
 		fich.close();
 	}	
@@ -154,11 +154,13 @@ void Moteur::SupprimeImage(int id){
 		if(!it.end())
 		{
 			it.remove();
-			this->fichierLog << "Suppression de l'imageNG: "<<id <<endl;
+			if(fichierLog.is_open())
+				this->fichierLog << "Suppression de l'imageNG: "<<id <<endl;
+			return;
 
 		}
 	}
-	else
+	
 	if(!imagesRGB.estVide())
 	{
 		Iterateur<ImageRGB> it1(imagesRGB);
@@ -169,10 +171,12 @@ void Moteur::SupprimeImage(int id){
 		if(!it1.end())
 		{
 			it1.remove();
-			this->fichierLog << "Suppression de l'imageRGB: "<<id <<endl;
+			if(fichierLog.is_open())
+				this->fichierLog << "Suppression de l'imageRGB: "<<id <<endl;
+			return;
 		} 
-	}
-	else	
+	}	
+	
 	if(!imagesB.estVide())
 	{
 		Iterateur<ImageRGB> it2(imagesRGB);
@@ -183,10 +187,12 @@ void Moteur::SupprimeImage(int id){
 		if(!it2.end())
 		{
 			it2.remove();
-			this->fichierLog << "Suppression de l'imageB: "<<id <<endl;
+			if(fichierLog.is_open())
+				this->fichierLog << "Suppression de l'imageB: "<<id <<endl;
+			return;
 		} 
 	}
-	else
+
 		throw(MoteurException("l'image a supprimer n'a pas etee trouvée"));
 	
 }
@@ -197,7 +203,8 @@ int Moteur::ImporteImageNG(const char *chemin){
 		int id;
 		ImageNG img(chemin);
 		id = this->Insere(&img);
-		this->fichierLog << "Importation de l'imageNG: "<< chemin << "avec l'id: "<<id <<endl;
+		if(fichierLog.is_open())
+			this->fichierLog << "Importation de l'imageNG: "<< chemin << "avec l'id: "<<id <<endl;
 		return id;	
 	}
 	catch(WindowSDLexception e)
@@ -212,7 +219,8 @@ int Moteur::ImporteImageRGB(const char *chemin){
 		int id;
 		ImageRGB img(chemin);
 		id = this->Insere(&img);
-		this->fichierLog << "Importation de l'imageRGB: "<< chemin << "avec l'id: "<<id <<endl;
+		if(fichierLog.is_open())
+			this->fichierLog << "Importation de l'imageRGB: "<< chemin << "avec l'id: "<<id <<endl;
 		return id;	
 	}
 	catch(WindowSDLexception e)
@@ -253,7 +261,8 @@ void Moteur::VisualiseImages(int id1,int id2){
 void Moteur::ExporterBMP(int id, const char* fichier){
 	Image* pt = this->GetImage(id);
 	pt->exportToBMP(fichier);
-	this->fichierLog << "Exportation de l'image: "<<id <<"vers: "<< fichier <<endl;
+	if(fichierLog.is_open())
+		this->fichierLog << "Exportation de l'image: "<<id <<"vers: "<< fichier <<endl;
 }
 
 int Moteur::AugmenteLuminosite(int id, int val){
@@ -261,7 +270,8 @@ int Moteur::AugmenteLuminosite(int id, int val){
 	ImageNG im(GetImageNG(id));
 	im = im+val;
 	idretour = Insere(&im);
-	this->fichierLog << "Augmentation de la Luminosite de l'image: "<< id << " + " << val << " --> " << idretour << endl;
+	if(fichierLog.is_open())
+		this->fichierLog << "Augmentation de la Luminosite de l'image: "<< id << " + " << val << " --> " << idretour << endl;
 	return idretour;
 }
 
@@ -270,7 +280,8 @@ int Moteur::DiminueLuminosite(int id, int val){
 	ImageNG im(GetImageNG(id));
 	im = im-val;
 	idretour = Insere(&im);
-	this->fichierLog << "Diminution de la Luminosite de l'image: "<< id << " - " << val << " --> " << idretour << endl;
+	if(fichierLog.is_open())
+		this->fichierLog << "Diminution de la Luminosite de l'image: "<< id << " - " << val << " --> " << idretour << endl;
 	return idretour;
 }
 
@@ -280,7 +291,8 @@ int Moteur::Soustraire(int id1, int id2){
 	ImageNG im2(GetImageNG(id2));
 	ImageNG imOut(im1-im2);
 	idretour = Insere(&imOut);
-	this->fichierLog << "Soustraction de l'image: " << id1 << "par l'image: " << id2 << " --> " << idretour << endl;
+	if(fichierLog.is_open())
+		this->fichierLog << "Soustraction de l'image: " << id1 << "par l'image: " << id2 << " --> " << idretour << endl;
 	return idretour;
 	
 }
@@ -290,7 +302,8 @@ int Moteur::Seuillage(int id, int seuil){
 	ImageNG image(GetImageNG(id));
 	ImageB imgOut = Traitements::Seuillage(image,seuil);
 	idretour = Insere(&imgOut);
-	this->fichierLog << "Seuillage de l'image: " << id << "au niveau: " << seuil << " --> " << idretour << endl;
+	if(fichierLog.is_open())
+		this->fichierLog << "Seuillage de l'image: " << id << "au niveau: " << seuil << " --> " << idretour << endl;
 	return idretour;
 }
 
@@ -302,19 +315,22 @@ int Moteur::Negatif(int id){
     {
     	ImageNG negatif(*pNG);
       negatif = Traitements::Negatif(negatif);
-      negatif.setNom("negatif");
       idretour = Insere(&negatif);
-      this->fichierLog << "Negatif de l'imageNG: " << id << " --> " << idretour << endl;
+      if(fichierLog.is_open())
+      	this->fichierLog << "Negatif de l'imageNG: " << id << " --> " << idretour << endl;
       return idretour;
     }
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pt);
     if (pRGB != NULL) 
     {
-      // negatifRGB
-      return -1;
+      ImageRGB negatif(*pRGB);
+      negatif = Traitements::Negatif(negatif);
+      idretour = Insere(&negatif);
+      if(fichierLog.is_open())
+      	this->fichierLog << "Negatif de l'imageRGB: " << id << " --> " << idretour << endl;
+      return idretour;
     }	
-    // image B
-    return -1;
+     throw(MoteurException("l'image n'est pas prévue pour ce traitement"));
 }
 
 int Moteur::FiltreMedian(int id, int tailleFiltre){
@@ -326,17 +342,21 @@ int Moteur::FiltreMedian(int id, int tailleFiltre){
     	ImageNG imgOut(*pNG);
       imgOut = Traitements::FiltreMedian(imgOut,tailleFiltre);
       idretour = Insere(&imgOut);
-      this->fichierLog << "FiltreMedian de l'imageNG: " << id <<" Filtre: "<< tailleFiltre <<" --> " << idretour << endl;
+      if(fichierLog.is_open())
+      	this->fichierLog << "FiltreMedian de l'imageNG: " << id <<" Filtre: "<< tailleFiltre <<" --> " << idretour << endl;
       return idretour;
     }
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pt);
     if (pRGB != NULL) 
     {
-      // FiltreMedianRGB
-      return -1;
+     	ImageRGB imgOut(*pRGB);
+      imgOut = Traitements::FiltreMedian(imgOut,tailleFiltre);
+      idretour = Insere(&imgOut);
+      if(fichierLog.is_open())
+      	this->fichierLog << "FiltreMedian de l'imageRGB: " << id <<" Filtre: "<< tailleFiltre <<" --> " << idretour << endl;
+      return idretour;
     }	
-    // image B
-    return -1;
+    throw(MoteurException("l'image n'est pas prévue pour ce traitement"));
 }
 
 int Moteur::FiltreMoyenneur(int id, int tailleFiltre){
@@ -348,7 +368,8 @@ int Moteur::FiltreMoyenneur(int id, int tailleFiltre){
     	ImageNG imgOut(*pNG);
       imgOut = Traitements::FiltreMoyenneur(imgOut,tailleFiltre);
       idretour = Insere(&imgOut);
-      this->fichierLog << "FiltreMoyenneur de l'imageNG: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
+      if(fichierLog.is_open())
+      	this->fichierLog << "FiltreMoyenneur de l'imageNG: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
       return idretour;
     }
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pt);
@@ -357,11 +378,11 @@ int Moteur::FiltreMoyenneur(int id, int tailleFiltre){
      	ImageRGB imgOut(*pRGB);
       imgOut = Traitements::FiltreMoyenneur(imgOut,tailleFiltre);
       idretour = Insere(&imgOut);
-      this->fichierLog << "FiltreMoyenneur de l'imageRGB: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
+      if(fichierLog.is_open())
+      	this->fichierLog << "FiltreMoyenneur de l'imageRGB: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
       return idretour;
     }	
-    // image B
-    return -1;
+    throw(MoteurException("l'image n'est pas prévue pour ce traitement"));
 }
 
 int Moteur::Dilatation(int id, int tailleFiltre){
@@ -373,16 +394,21 @@ int Moteur::Dilatation(int id, int tailleFiltre){
     	ImageNG imgOut(*pNG);
       imgOut = Traitements::Dilatation(imgOut,tailleFiltre);
       idretour = Insere(&imgOut);
-      this->fichierLog << "Dilatation de l'imageNG: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
+      if(fichierLog.is_open())
+      	this->fichierLog << "Dilatation de l'imageNG: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
       return idretour;
     }
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pt);
     if (pRGB != NULL) 
     {
-     	return -1;
+     	ImageRGB imgOut(*pRGB);
+      imgOut = Traitements::Dilatation(imgOut,tailleFiltre);
+      idretour = Insere(&imgOut);
+      if(fichierLog.is_open())
+      	this->fichierLog << "Dilatation de l'imageRGB: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
+      return idretour;
     }	
-    // image B
-    return -1;
+    throw(MoteurException("l'image n'est pas prévue pour ce traitement"));
 
 }
 
@@ -401,52 +427,79 @@ int Moteur::Erosion(int id, int tailleFiltre){
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pt);
     if (pRGB != NULL) 
     {
-     	return -1;
-    }	
-    // image B
-    return -1;
+     	ImageRGB imgOut(*pRGB);
+      imgOut = Traitements::Erosion(imgOut,tailleFiltre);
+      idretour = Insere(&imgOut);
+       this->fichierLog << "Erosion de l'imageNG: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
+      return idretour;
+     }
+    throw(MoteurException("l'image n'est pas prévue pour ce traitement"));
 }
 
 int Moteur::FiltreMoyenneurSelection(int id, int tailleFiltre){
-	int idretour;
+	int idretour = 0,nombremodifs = 0;
 	Image *pt = GetImage(id);
 	WindowSDLclick click;
 	WindowSDL::open(pt->getDimension().getLargeur(),pt->getDimension().getHauteur());
 	pt->Dessine(0,0);
-	
-	click = WindowSDL::waitClick();
-	Pixel p1(click.getX(),click.getY());
-	Trace("click en [%d-%d]",click.getX(), click.getY());
-	click = WindowSDL::waitClick();
-	Pixel p2(click.getX(),click.getY());
-	Trace("click en [%d-%d]",click.getX(), click.getY());
-	
+		
 	ImageNG* pNG = dynamic_cast<ImageNG*>(pt);
     if (pNG != NULL) 
     {
     	ImageNG imgOut(*pNG);
-      imgOut = Traitements::FiltreMoyenneur(imgOut,tailleFiltre,p1,p2);
-      imgOut.Dessine(0,0);
-      WindowSDL::waitClick();
+    	while(1)
+    	{
+    		click = WindowSDL::waitClick();
+    		if(click.getX() < 0 || click.getY() < 0) break;
+			Pixel p1(click.getX(),click.getY());
+			Trace("click en [%d-%d]",click.getX(), click.getY());
+			click = WindowSDL::waitClick();
+			if(click.getX() < 0 || click.getY() < 0) break;
+			Pixel p2(click.getX(),click.getY());
+			Trace("click en [%d-%d]",click.getX(), click.getY());
+			
+    		imgOut = Traitements::FiltreMoyenneur(imgOut,tailleFiltre,p1,p2);
+    		nombremodifs ++;
+      	imgOut.Dessine(0,0);
+    	}
       WindowSDL::close();
-      idretour = Insere(&imgOut);
-      this->fichierLog << "FiltreMoyenneurSelection de l'imageNG: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
+      if(nombremodifs > 0)
+      {
+      	idretour = Insere(&imgOut);
+     		this->fichierLog << "FiltreMoyenneurSelection de l'imageNG: " << id <<" Filtre: "<< tailleFiltre<<" et "<< nombremodifs<< " zones floutées" << " --> " << idretour << endl;
+      }
       return idretour;
     }
     ImageRGB* pRGB = dynamic_cast<ImageRGB*>(pt);
     if (pRGB != NULL) 
     {
-     	ImageRGB imgOut(*pRGB);
-      imgOut = Traitements::FiltreMoyenneur(imgOut,tailleFiltre,p1,p2);
-      imgOut.Dessine(0,0);
-      WindowSDL::waitClick();
+    	ImageRGB imgOut(*pRGB);
+    	while(1)
+    	{
+    		click = WindowSDL::waitClick();
+    		if(click.getX() < 0 || click.getY() < 0) break;
+			Pixel p1(click.getX(),click.getY());
+			Trace("click en [%d-%d]",click.getX(), click.getY());
+			click = WindowSDL::waitClick();
+			if(click.getX() < 0 || click.getY() < 0) break;
+			Pixel p2(click.getX(),click.getY());
+			Trace("click en [%d-%d]",click.getX(), click.getY());
+			
+			imgOut = Traitements::FiltreMoyenneur(imgOut,tailleFiltre,p1,p2);
+			nombremodifs++;
+      	imgOut.Dessine(0,0);
+    	}	
+
       WindowSDL::close();
-      idretour = Insere(&imgOut);
-       this->fichierLog << "FiltreMoyenneurSelection de l'imageRGB: " << id <<" Filtre: "<< tailleFiltre << " --> " << idretour << endl;
+      if(nombremodifs > 0)
+      {
+      	idretour = Insere(&imgOut);
+       	this->fichierLog << "FiltreMoyenneurSelection de l'imageRGB: " << id <<" Filtre: "<< tailleFiltre <<" et "<< nombremodifs<< " zones floutées" << " --> " << idretour << endl;
+      }
       return idretour;
     }	
 	WindowSDL::close();
-	return -1;	
+	throw(MoteurException("l'image n'est pas prévue pour ce traitement"));
 }
 
 void Moteur::Save(ofstream &fichier) {
@@ -484,14 +537,16 @@ void Moteur::Save(ofstream &fichier) {
 		type = 'B';
 		while(!it3.end())
 		{
+			Trace("0");
 			fichier.write((char*)&type,sizeof(char));
+			Trace("1");
 			it3.getpCur()->valeur.Save(fichier);
+			Trace("2");
 			it3++;
 		}
 	}
 	type = 'O';
 	fichier.write((char*)&type,sizeof(char));
-	Trace("fin");
 }
 
 void Moteur::Load(ifstream &fichier){
@@ -535,9 +590,10 @@ int Moteur::ImporteCSV(const char* fichiercsv){
 	ifstream fb(fichiercsv,ios::in);
 	if(!fb.is_open())
 		throw(MoteurException("le fichier n'est pas accesible"));
+		
 	while(fb >> Tampon)
 	{
-		cout << Tampon << endl;
+		cout << Tampon;
 		token = strtok(Tampon,":");
 		strcpy(Type,token);
 		token = strtok(NULL,"\n");
@@ -546,13 +602,15 @@ int Moteur::ImporteCSV(const char* fichiercsv){
 		{
 			try
 			{
+				// importe pas fonctionnel
 				ImageNG im(Image);
+				cout << " - image valide" <<endl;
 				this->Insere(&im);
 				nombre++;
 			}
 			catch(WindowSDLexception e)
 			{
-				cout << "image erronée" <<endl;
+				cout << " - image erronée" <<endl;
 			}
 			
 		}
@@ -562,12 +620,13 @@ int Moteur::ImporteCSV(const char* fichiercsv){
 			try
 			{
 				ImageRGB im(Image);
+				cout << " - image valide" <<endl;
 				this->Insere(&im);
 				nombre++;
 			}
 			catch(WindowSDLexception e)
 			{
-				cout << "image erronée" <<endl;
+				cout << " - image erronée" <<endl;
 			}
 		}
 		else

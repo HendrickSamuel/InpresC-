@@ -18,9 +18,13 @@
 			static ImageNG FiltreMoyenneur(const ImageNG&, int, Pixel p1=Pixel(), Pixel p2=Pixel());
 			static ImageRGB FiltreMoyenneur(const ImageRGB&, int, Pixel p1=Pixel(), Pixel p2=Pixel());
 			static ImageNG FiltreMedian(const ImageNG&, int);
+			static ImageRGB FiltreMedian(const ImageRGB&, int);
 			static ImageNG Erosion(const ImageNG&, int);
+			static ImageRGB Erosion(const ImageRGB&, int);
 			static ImageNG Dilatation(const ImageNG&, int);
+			static ImageRGB Dilatation(const ImageRGB&, int);
 			static ImageNG Negatif(const ImageNG&);
+			static ImageRGB Negatif(const ImageRGB&);
 	};
 
 #endif

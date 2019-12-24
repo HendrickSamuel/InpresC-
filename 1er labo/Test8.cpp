@@ -8,6 +8,7 @@ using namespace std;
 #include "ImageB.h"
 #include "ImageRGB.h"
 #include "XYException.h"
+#include "RGBException.h"
 
 int  Menu();
 void Essai1();
@@ -171,17 +172,26 @@ void Essai5()  // Attention : utilisez les flux bytes (read et write) !!!!
   cout << "i1 = " << i1 << endl; i1.Dessine();
   cout << endl;
 
-  cout << "----- Sauvegarde de l'image dans le fichier NG.dat -----" << endl;
+  cout << "----- Sauvegarde de l'image dans le fichier RGB.dat -----" << endl;
   ofstream fichier1("RGB.dat",ios::out);
   i1.Save(fichier1);
   fichier1.close();
 
   cout << "----- Chargement de l'image situee dans le fichier RGB.dat -----" << endl;
-  ifstream fichier2("RGB.dat",ios::in);
-  ImageRGB i2;
-  i2.Load(fichier2);
-  fichier2.close();
-  cout << "i2 = " << i2 << endl; i2.Dessine();
+  try
+  {
+  	ifstream fichier2("RGB.dat",ios::in);
+  	ImageRGB i2;
+  	i2.Load(fichier2);
+  	fichier2.close();
+  	cout << "i2 = " << i2 << endl; i2.Dessine();
+  }
+  catch(RGBException e)
+  {
+  	cout << e.getMessage() << " - " << e.getValeur() << endl;
+  }
+  	
+  
   cout << endl;
 }
 

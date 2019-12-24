@@ -431,9 +431,12 @@ void ImageNG::Dessine() const
 }
 
 void ImageNG::Dessine(int x,int y) const{
-	WindowSDLimage image(getDimension().getLargeur(),getDimension().getHauteur());
-	for(int i= 0; i < getDimension().getLargeur(); i++)
-		for(int j = 0; j < getDimension().getHauteur();j++)
+	int larg = this->getDimension().getLargeur();
+	int haut = this->getDimension().getHauteur();
+	
+	WindowSDLimage image(larg,haut);
+	for(int i= 0; i < larg; i++)
+		for(int j = 0; j < haut;j++)
 			image.setPixel(i,j,getPixel(i,j),getPixel(i,j),getPixel(i,j));
 		
 	WindowSDL::drawImage(image,x,y);

@@ -203,9 +203,11 @@ void ImageRGB::Dessine() const
 
 void ImageRGB::Dessine(int x,int y) const{
 	Couleur coultmp;
-	WindowSDLimage image(getDimension().getLargeur(),getDimension().getHauteur());
-	for(int i= 0; i < getDimension().getLargeur(); i++)
-		for(int j = 0; j < getDimension().getHauteur();j++)
+	int larg = this->getDimension().getLargeur();
+	int haut = this->getDimension().getHauteur();
+	WindowSDLimage image(larg,haut);
+	for(int i= 0; i < larg; i++)
+		for(int j = 0; j < haut;j++)
 		{	
 			coultmp = getPixel(i,j);
 			image.setPixel(i,j,coultmp.getRouge(),coultmp.getVert(),coultmp.getBleu());
@@ -288,7 +290,7 @@ void ImageRGB::exportToBMP(const char* fichier)
 				{
 					pixel.setRouge(r.getPixel(x,y));
 					pixel.setVert(g.getPixel(x,y));
-					pixel.setBleu(g.getPixel(x,y));
+					pixel.setBleu(b.getPixel(x,y));
 					this->setPixel(x,y,pixel);
 				}
 		}
@@ -301,11 +303,8 @@ void ImageRGB::exportToBMP(const char* fichier)
 
 void ImageRGB::Save(ofstream & fichier) const
 {
-	
-	int taillenom = strlen(nom);
 	Couleur pixel;
 	Image::Save(fichier);
-	dimension.Save(fichier); // 5. dimension
 	
 	for(int x = 0; x < dimension.getLargeur(); x++)
 		for(int y = 0; y < dimension.getHauteur(); y++)
@@ -319,9 +318,7 @@ void ImageRGB::Load(ifstream & fichier)
 {
 	Couleur pixel;
 	Image::Load(fichier);
-	
-	matrice.Redimension(dimension);
-	
+	setDimension(this->getDimension());
 	for(int x = 0; x < dimension.getLargeur(); x++)
 		for(int y = 0; y < dimension.getHauteur(); y++)
 			{

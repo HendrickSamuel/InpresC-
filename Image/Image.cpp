@@ -117,21 +117,29 @@ const Dimension& Image::getDimension() const
 
 
 void Image::Save(ofstream & fichier) const{
-	int taillenom = strlen(nom)+1;
+	
+	int taillenom = 0;
+	if(nom)
+		taillenom = strlen(nom)+1;
 	fichier.write((char*)&id,sizeof(int)); // 2. id
 	fichier.write((char*)&taillenom,sizeof(int)); // 3. taille du nom
-	fichier.write(nom,sizeof(char)*taillenom); // 4. nom
+	if(nom)
+		fichier.write(nom,sizeof(char)*taillenom); // 4. nom
 	dimension.Save(fichier); // 5. dimension
 }
 
 void Image::Load(ifstream & fichier){
 	int taillenom;
+	
 	fichier.read((char*)&id,sizeof(int)); // 2. id
 	fichier.read((char*)&taillenom,sizeof(int)); // 3. taille du nom
-	char* nomtmp = new char[taillenom]; 
-	fichier.read(nomtmp,taillenom); // 4. nom
-	setNom(nomtmp);
-	delete[] nomtmp;
+	if(taillenom != 0)
+	{
+		char* nomtmp = new char[taillenom]; 
+		fichier.read(nomtmp,sizeof(char)*taillenom); // 4. nom
+		setNom(nomtmp);
+		delete[] nomtmp;
+	}
 	dimension.Load(fichier);
 }
 

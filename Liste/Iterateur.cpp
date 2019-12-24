@@ -56,7 +56,7 @@ template <class T> T Iterateur<T>::remove(){
 }
 
 template <class T> bool Iterateur<T>::operator++(){
-	if(pCur)
+	if(pCur != NULL)
 	{
 		pCur = pCur -> suivant;
 		return true;

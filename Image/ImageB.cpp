@@ -241,10 +241,9 @@ void ImageB::exportToBMP(const char* fichier)
 void ImageB::Save(ofstream & fichier) const
 {
 	bool pixel;
+	Trace("22");
 	Image::Save(fichier);
-	
-	dimension.Save(fichier); // 5. dimension
-	
+	Trace("23");
 	for(int x = 0; x < dimension.getLargeur(); x++)
 		for(int y = 0; y < dimension.getHauteur(); y++)
 			{
@@ -258,8 +257,7 @@ void ImageB::Load(ifstream & fichier)
 	
 	bool pixel;
 	Image::Load(fichier);
-	dimension.Load(fichier);
-	matrice.Redimension(dimension);
+	setDimension(getDimension());
 	
 	for(int x = 0; x < dimension.getLargeur(); x++)
 		for(int y = 0; y < dimension.getHauteur(); y++)
